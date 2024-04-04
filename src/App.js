@@ -14,7 +14,7 @@ const App = () => {
       try {
         const response = await fetch(`http://20.244.56.144/test/${type}`, {
           headers: {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'  // token is changed for every request
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'  // token is changed for every request
           }
         });
         if (!response.ok) {
