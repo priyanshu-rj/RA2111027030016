@@ -10,7 +10,12 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://20.244.56.144/test/${type}`); //every request we face a problem of token expire please resolve it .
+        const response = await fetch(`http://20.244.56.144/test/${type}`,{
+          headers: {
+            'Authorization': ''  //token is change for every request
+          }
+        });
+); //every request we face a problem of token expire please resolve it .
         if (!response.ok) {
           throw new Error('Error in response');
         }
@@ -37,7 +42,12 @@ const App = () => {
   if (error) {
     return <div className="text-center mt-5">Error: {error}</div>;
   }
-
+  useEffect(() => {
+    // Calculate average when numbers change
+    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+    const avg = sum / numbers.length;
+    setAverage(avg);
+  }, [numbers]);
   return (
 <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto py-8">
@@ -56,13 +66,29 @@ const App = () => {
             <option value="random">Random Numbers</option>
           </select>
         </div>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+   <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((number, index) => (
             <li key={index} className="bg-white p-4 rounded-md shadow-md">
               <span className="text-lg font-semibold">Number:</span> {number}
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+       <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-semibold mb-4">Numbers</h1>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {numbers.map((number, index) => (
+            <li key={index} className="bg-white p-4 rounded-md shadow-md">
+              <span className="text-lg font-semibold">Number:</span> {number}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-2">Average:</h2>
+          <p>{average}</p>
+        </div>
       </div>
     </div>
   );
