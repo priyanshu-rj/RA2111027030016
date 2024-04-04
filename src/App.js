@@ -6,14 +6,12 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [type, setType] = useState('even');
-<<<<<<< HEAD
   const [average, setAverage] = useState(0); // State for average
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`http://localhost:3001/numbers/${type}`);
-=======
   const [average, setAverage] = useState(0); // average
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'; // token
 //update the token beacuse it fail after every request token was expire so we face a problem of this , thats why we update the token 
@@ -25,7 +23,6 @@ const App = () => {
             Authorization: `Bearer ${token}`,
           },
         });
->>>>>>> 5f90fd191b1895b66befca3e91f6a21253680b9c
         if (!response.ok) {
           throw new Error('Error in response');
         }
@@ -39,22 +36,19 @@ const App = () => {
     };
 
     fetchData();
-<<<<<<< HEAD
+
   }, [type]);
 =======
   }, [type, token]);
->>>>>>> 5f90fd191b1895b66befca3e91f6a21253680b9c
+
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     // Calculate average when data changes
-=======
     // Calculating average
->>>>>>> 5f90fd191b1895b66befca3e91f6a21253680b9c
     const sum = data.reduce((acc, curr) => acc + curr, 0);
     const avg = sum / data.length;
     setAverage(avg);
