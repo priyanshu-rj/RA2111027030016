@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css'; //Tailwind CSS 
+import './styles.css'; // Tailwind CSS 
 
 const App = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [type, setType] = useState('even'); 
+  const [type, setType] = useState('even');
+  const [average, setAverage] = useState(0); // State for average
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://20.244.56.144/test/${type}`); //every request we face a problem of token expire please resolve it .
+        const response = await fetch(`http://localhost:3001/numbers/${type}`);
         if (!response.ok) {
           throw new Error('Error in response');
         }
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.numbers);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -24,22 +25,29 @@ const App = () => {
     };
 
     fetchData();
-  }, [type]); 
+  }, [type]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
   };
 
+  useEffect(() => {
+    // Calculate average when data changes
+    const sum = data.reduce((acc, curr) => acc + curr, 0);
+    const avg = sum / data.length;
+    setAverage(avg);
+  }, [data]);
+
   if (loading) {
-    return <div className="text-center mt-5">Loading..</div>;
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-center mt-5">Error: {error}</div>;
+    return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
   }
 
   return (
-<div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-semibold mb-4">Numbers</h1>
         <div className="mb-4">
@@ -51,6 +59,7 @@ const App = () => {
             className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
           >
             <option value="even">Even Numbers</option>
+            <option value="odd">Odd Numbers</option>
             <option value="prime">Prime Numbers</option>
             <option value="fibonacci">Fibonacci Numbers</option>
             <option value="random">Random Numbers</option>
@@ -63,6 +72,10 @@ const App = () => {
             </li>
           ))}
         </ul>
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-2">Average:</h2>
+          <p>{average}</p>
+        </div>
       </div>
     </div>
   );
