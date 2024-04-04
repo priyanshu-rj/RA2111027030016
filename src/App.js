@@ -23,7 +23,7 @@ const App = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        if (!response.ok) {
+  if (!response.ok) {
           throw new Error('Error in response');
         }
         const jsonData = await response.json();
@@ -36,11 +36,7 @@ const App = () => {
     };
 
     fetchData();
-
   }, [type]);
-=======
-  }, [type, token]);
-
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -48,7 +44,6 @@ const App = () => {
 
   useEffect(() => {
     // Calculate average when data changes
-    // Calculating average
     const sum = data.reduce((acc, curr) => acc + curr, 0);
     const avg = sum / data.length;
     setAverage(avg);
@@ -97,4 +92,5 @@ const App = () => {
   );
 };
 
-export default
+export default App;
+
