@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css'; // Tailwind CSS
+import './styles.css'; // Tailwind CSS 
 
 const App = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [type, setType] = useState('even');
-  const [numbers, setNumbers] = useState([]);
-  const [average, setAverage] = useState(0);
-
+  const [average, setAverage] = useState(0); // average
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'; // token
+//update the token beacuse it fail after every request token was expire so we face a problem of this , thats why we update the token 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://20.244.56.144/test/${type}`, {
+        const response = await fetch(`http://localhost:3001/numbers/${type}`, {
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'  // token is changed for every request
-          }
-          //some change occurs due to expire the token so that's why i am change the toke to check the code is correctly run or not 
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (!response.ok) {
           throw new Error('Error in response');
         }
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.numbers);
         setLoading(false);
-        // Calculate average when data is fetched
-        const sum = jsonData.reduce((acc, curr) => acc + curr, 0);
-        const avg = sum / jsonData.length;
-        setAverage(avg);
       } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -35,18 +30,25 @@ const App = () => {
     };
 
     fetchData();
-  }, [type]);
+  }, [type, token]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
   };
 
+  useEffect(() => {
+    // Calculating average
+    const sum = data.reduce((acc, curr) => acc + curr, 0);
+    const avg = sum / data.length;
+    setAverage(avg);
+  }, [data]);
+
   if (loading) {
-    return <div className="text-center mt-5">Loading..</div>;
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-center mt-5">Error: {error}</div>;
+    return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
   }
 
   return (
@@ -62,6 +64,7 @@ const App = () => {
             className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
           >
             <option value="even">Even Numbers</option>
+            <option value="odd">Odd Numbers</option>
             <option value="prime">Prime Numbers</option>
             <option value="fibonacci">Fibonacci Numbers</option>
             <option value="random">Random Numbers</option>
@@ -83,4 +86,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default
