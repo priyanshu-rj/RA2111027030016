@@ -12,7 +12,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/numbers/${type}`, {
+        const response = await fetch(`http://20.244.56.144/test/${type}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
