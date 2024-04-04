@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css'; //Tailwind CSS 
+import './styles.css'; // Tailwind CSS
 
 const App = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [type, setType] = useState('even'); 
+  const [type, setType] = useState('even');
+  const [numbers, setNumbers] = useState([]);
+  const [average, setAverage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://20.244.56.144/test/${type}`,{
+        const response = await fetch(`http://20.244.56.144/test/${type}`, {
           headers: {
-            'Authorization': ''  //token is change for every request
+            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiZXhwIjoxNzEyMTUxNjIxLCJpYXQiOjE3MTIxNTEzMjEsImlzcyI6IkFmZm9yZG1lZCIsImp0aSI6IjMxYzIzZGQ1LWMyNDEtNDU4Yi05NDQ3LWRhOTM1ZjdlYWUxZSIsInN1YiI6InBrOTg0MUBzcm1pc3QuZWR1LmluIn0sImNvbXBhbnlOYW1lIjoicHJpeWFuc2h1U1JNIiwiY2xpZW50SUQiOiIzMWMyM2RkNS1jMjQxLTQ1OGItOTQ0Ny1kYTkzNWY3ZWFlMWUiLCJjbGllbnRTZWNyZXQiOiJpa0hkTVVCS0pnb1VMeEFHIiwib3duZXJOYW1lIjoiUHJpeWFuc2h1Iiwib3duZXJFbWFpbCI6InBrOTg0MUBzcm1pc3QuZWR1LmluIiwicm9sbE5vIjoiUkEyMTExMDI3MDMwMDE2In0.tBCGvw-7fCi5a9CtAKwA5WcwBO6yK4vJsxbvT_wuilY'  // token is changed for every request
           }
         });
-); //every request we face a problem of token expire please resolve it .
         if (!response.ok) {
           throw new Error('Error in response');
         }
         const jsonData = await response.json();
         setData(jsonData);
         setLoading(false);
+        // Calculate average when data is fetched
+        const sum = jsonData.reduce((acc, curr) => acc + curr, 0);
+        const avg = sum / jsonData.length;
+        setAverage(avg);
       } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -29,7 +34,7 @@ const App = () => {
     };
 
     fetchData();
-  }, [type]); 
+  }, [type]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -42,14 +47,9 @@ const App = () => {
   if (error) {
     return <div className="text-center mt-5">Error: {error}</div>;
   }
-  useEffect(() => {
-    // Calculate average when numbers change
-    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
-    const avg = sum / numbers.length;
-    setAverage(avg);
-  }, [numbers]);
+
   return (
-<div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-semibold mb-4">Numbers</h1>
         <div className="mb-4">
@@ -66,20 +66,8 @@ const App = () => {
             <option value="random">Random Numbers</option>
           </select>
         </div>
-   <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.map((number, index) => (
-            <li key={index} className="bg-white p-4 rounded-md shadow-md">
-              <span className="text-lg font-semibold">Number:</span> {number}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-       <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-semibold mb-4">Numbers</h1>
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {numbers.map((number, index) => (
+          {data.map((number, index) => (
             <li key={index} className="bg-white p-4 rounded-md shadow-md">
               <span className="text-lg font-semibold">Number:</span> {number}
             </li>
